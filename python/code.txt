@@ -1,0 +1,3 @@
+
+pattern_to_find = r"\w\a"
+review_with_no_punctuation = [review for review in customer_reviews if re.sub(pattern_to_find, "", review)]

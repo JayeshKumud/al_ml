@@ -3,7 +3,7 @@ import pandas as pd
 
 nlp = spacy.load("en_core_web_sm")
 
-emma_ja =  open("pos_tagging.txt", encoding="utf-8").read()
+emma_ja =  open("../data/pos_tagging.txt", encoding="utf-8").read()
 
 spacy_doc = nlp(emma_ja)
 

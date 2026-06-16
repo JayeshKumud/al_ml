@@ -9,7 +9,7 @@ import re
 nlp = spacy.load("en_core_web_sm")
 
 # Read entire text from the CSV file and concatenate it into a single string for processing. 
-google_text = open("ner.txt", encoding="utf-8").read()
+google_text = open("../data/ner.txt", encoding="utf-8").read()
 print(google_text)
 
 spacy_doc = nlp(google_text)

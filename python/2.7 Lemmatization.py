@@ -1,6 +1,8 @@
+# %%
 import nltk
 nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer
+
 lemmatizer = WordNetLemmatizer()    
 
 connect_tokens = ['connecting', 'connected', 'connectivity', 'connect', 'connects']

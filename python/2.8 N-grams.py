@@ -1,4 +1,3 @@
-import nltk
 from nltk import ngrams
 import pandas as pd
 import matplotlib.pyplot as plt

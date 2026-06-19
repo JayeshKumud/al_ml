@@ -1,9 +1,7 @@
 # %%
-from mistune import html
 import spacy
 from spacy import displacy
 from spacy import tokenizer
-from IPython.display import HTML, display
 import pandas as pd
 import re
 

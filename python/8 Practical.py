@@ -23,7 +23,7 @@ from sklearn.metrics import accuracy_score, classification_report
 
 # set plot options
 plt.rcParams['figure.figsize'] = (12, 8)
-default_plot_colour = "#00bfbf"
+default_plot_colour = "#00bfbf" 
 
 # Read CSV 
 data = pd.read_csv('../data/fake_news_data.csv')

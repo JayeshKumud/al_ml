@@ -1,5 +1,0 @@
-
-pattern_to_find = r"\w\a"
-review_with_no_punctuation = [review for review in customer_reviews if re.sub(pattern_to_find, "", review)]
-
-data['review_no_stopwords_no_punk'] = data.apply(lamda x: [x.sub("[*], "star", x['review_no_stopwords']), axis = 1]

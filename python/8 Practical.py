@@ -1,21 +1,6 @@
 # %%
 import pandas as pd
 import matplotlib.pyplot as plt
-
-# set plot options
-plt.rcParams['figure.figsize'] = (12, 8)
-default_plot_colour = "#00bfbf"
-
-# Read CSV 
-data = pd.read_csv('../data/fake_news_data.csv')
-data.head()
-
-# plot number of fake and factual articles
-data['fake_or_factual'].value_counts().plot(kind='bar', color=default_plot_colour)
-plt.title('Count Of Article Classification')
-plt.ylabel('# of Articles')
-plt.xlabel('Classification')
-
 import seaborn as sns
 import spacy
 from spacy import displacy
@@ -36,8 +21,21 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
+# set plot options
+plt.rcParams['figure.figsize'] = (12, 8)
+default_plot_colour = "#00bfbf"
 
-# POS Tagging
+# Read CSV 
+data = pd.read_csv('../data/fake_news_data.csv')
+data.head()
+
+# %% plot number of fake and factual articles
+data['fake_or_factual'].value_counts().plot(kind='bar', color=default_plot_colour)
+plt.title('Count Of Article Classification')
+plt.ylabel('# of Articles')
+plt.xlabel('Classification')
+
+# %% POS Tagging
 nlp = spacy.load('en_core_web_sm')
 
 # split data by fake and factual news
@@ -60,8 +58,7 @@ for ix, doc in enumerate(fake_spaceydocs):
     tags = extract_token_tags(doc)
     tags = pd.DataFrame(tags)
     tags.columns = columns
-    fake_tagsdf.append(tags)
-        
+    fake_tagsdf.append(tags)  
 fake_tagsdf = pd.concat(fake_tagsdf)   
 
 # tag factual dataset 
@@ -71,32 +68,37 @@ for ix, doc in enumerate(fact_spaceydocs):
     tags = extract_token_tags(doc)
     tags = pd.DataFrame(tags)
     tags.columns = columns
-    fact_tagsdf.append(tags)
-        
+    fact_tagsdf.append(tags)       
 fact_tagsdf = pd.concat(fact_tagsdf)   
 
 fake_tagsdf.head()
 
-# token frequency count (fake)
+# %% token frequency count (fake)
 pos_counts_fake = fake_tagsdf.groupby(['token','pos_tag']).size().reset_index(name='counts').sort_values(by='counts', ascending=False)
 pos_counts_fake.head(10)
 
-# token frequency count (fact)
+# %% token frequency count (fact)
 pos_counts_fact = fact_tagsdf.groupby(['token','pos_tag']).size().reset_index(name='counts').sort_values(by='counts', ascending=False)
 pos_counts_fact.head(10)
 
-# frequencies of pos tags
+# %% frequencies of pos tags fake
 pos_counts_fake.groupby(['pos_tag'])['token'].count().sort_values(ascending=False).head(10)
 
+# %% frequencies of pos tags fact
 pos_counts_fact.groupby(['pos_tag'])['token'].count().sort_values(ascending=False).head(10)
 
-# dive into diferences in nouns
+# %% dive into diferences in nouns
 pos_counts_fake[pos_counts_fake.pos_tag == "NOUN"][0:15]
 pos_counts_fact[pos_counts_fact.pos_tag == "NOUN"][0:15]
 
 
 # top entities in fact news
 top_entities_fact = fact_tagsdf[fact_tagsdf['ner_tag'] != ""] \
+                    .groupby(['token','ner_tag']).size().reset_index(name='counts') \
+                    .sort_values(by='counts', ascending=False)
+
+# %% top entities in fake news
+top_entities_fake = fake_tagsdf[fake_tagsdf['ner_tag'] != ""] \
                     .groupby(['token','ner_tag']).size().reset_index(name='counts') \
                     .sort_values(by='counts', ascending=False)
 
@@ -122,6 +124,7 @@ sns.barplot(
 ) \
 .set(title='Most Common Entities in Fake News')
 
+#%% Text Pre-Prosession & Text Clean up
 
 # a lot of the factual news has a location tag at the beginning of the article, let's use regex to remove this
 data['text_clean'] = data.apply(lambda x: re.sub(r"^[^-]*-\s*", "", x['text']), axis=1)
@@ -146,7 +149,7 @@ lemmatizer = WordNetLemmatizer()
 data["text_clean"] = data["text_clean"].apply(lambda tokens: [lemmatizer.lemmatize(token) for token in tokens])
 data.head()
 
-# most common unigrams after preprocessing
+# %% most common unigrams after preprocessing
 tokens_clean = sum(data['text_clean'], [])
 unigrams = (pd.Series(nltk.ngrams(tokens_clean, 1)).value_counts()).reset_index()[:10]
 print(unigrams)
@@ -161,15 +164,16 @@ sns.barplot(x = "count",
 .set(title='Most Common Unigrams After Preprocessing')
 
 
-# most common bigrams after preprocessing
+# %% most common bigrams after preprocessing
 bigrams = (pd.Series(nltk.ngrams(tokens_clean, 2)).value_counts()) 
-print(bigrams[:10])
+bigrams.head(10)
 
-# use vader so we also get a neutral sentiment count
+# %% use vader so we also get a neutral sentiment count
 vader_sentiment = SentimentIntensityAnalyzer()
 data['vader_sentiment_score'] = data['text'].apply(lambda review: vader_sentiment.polarity_scores(review)['compound'])
+data.head()
 
-# create labels
+# %% create labels
 bins = [-1, -0.1, 0.1, 1]
 names = ['negative', 'neutral', 'positive']
 
@@ -184,8 +188,7 @@ sns.countplot(
 ) \
 .set(title='Sentiment by News Type')
 
-# LDA
-# fake news data vectorization
+# %% LDA: fake news data vectorization
 fake_news_text = data[data['fake_or_factual'] == "Fake News"]['text_clean'].reset_index(drop=True)
 dictionary_fake = corpora.Dictionary(fake_news_text)
 doc_term_fake = [dictionary_fake.doc2bow(text) for text in fake_news_text]
@@ -209,7 +212,7 @@ plt.ylabel("Coherence score")
 plt.legend(("coherence_values"), loc='best')
 plt.show()
 
-# create lda model
+# %% create lda model
 num_topics_fake = 6 
 
 lda_model_fake = gensim.models.LdaModel(corpus=doc_term_fake,

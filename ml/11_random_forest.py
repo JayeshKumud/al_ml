@@ -29,7 +29,6 @@ dir(digits)
 
 # %%
 # Visualize first few digit images
-%matplotlib inline
 import matplotlib.pyplot as plt
 
 plt.gray()
@@ -53,13 +52,13 @@ df[0:12]
 # ---------------------------------------------------------
 # Prepare data for training
 # ---------------------------------------------------------
-X = df.drop("target", axis="columns")   # Features: 64 pixel values
-y = df.target                           # Target: digit label
+x = df.drop("target", axis="columns")  # Features: 64 pixel values
+y = df.target  # Target: digit label
 
 from sklearn.model_selection import train_test_split
 
 # Split into training and testing sets (80/20)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
 # ---------------------------------------------------------
 # Train Random Forest Classifier
@@ -68,15 +67,15 @@ from sklearn.ensemble import RandomForestClassifier
 
 # n_estimators = number of trees in the forest
 model = RandomForestClassifier(n_estimators=20)
-model.fit(X_train, y_train)
+model.fit(x_train, y_train)
 
 # %%
 # Display model accuracy
-print("Model accuracy:", model.score(X_test, y_test))
+print("Model accuracy:", model.score(x_test, y_test))
 
 # %%
 # Predict labels for test set
-y_predicted = model.predict(X_test)
+y_predicted = model.predict(x_test)
 print("Sample predictions:", y_predicted[:10])
 
 # ---------------------------------------------------------
@@ -93,6 +92,7 @@ cm
 # %%
 # Visualize confusion matrix as heatmap
 import seaborn as sn
+
 plt.figure(figsize=(10, 7))
 sn.heatmap(cm, annot=True, cmap="Blues")
 plt.xlabel("Predicted")

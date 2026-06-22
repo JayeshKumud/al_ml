@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 # ---------------------------------------------------------
 # 2. Load dataset
 # ---------------------------------------------------------
-df = pd.read_csv("./data/insurance_data.csv")
+df = pd.read_csv("./data/07_logistic_regression_insurance.csv")
 df.head()  # Shows first 5 rows for inspection
 
 # ---------------------------------------------------------

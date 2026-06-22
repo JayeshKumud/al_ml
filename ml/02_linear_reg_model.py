@@ -8,7 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D  # Enables 3D plotting
 # ---------------------------------------------------------
 # Load dataset
 # ---------------------------------------------------------
-df = pd.read_csv("./data/homeprices_multi_feature.csv")
+df = pd.read_csv("./data/02_linear_reg_model_homeprices_multi_feature.csv")
 # The CSV contains: area, bedrooms, age, price
 
 

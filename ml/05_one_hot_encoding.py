@@ -1,10 +1,15 @@
 # %%
+# When a dataset contains text or categorical features (like 'town'), they must be converted
+# into numeric form before training a model. We use dummy variables (one‑hot encoding) to turn
+# each category into separate 0/1 columns so the model can understand and learn from them.
+
+
 import pandas as pd
 
 # ---------------------------------------------------------
 # Load dataset
 # ---------------------------------------------------------
-df = pd.read_csv("./data/homeprices_town_variation.csv")
+df = pd.read_csv("./data/05_one_hot_encoding_homeprices_town_type.csv")
 # Dataset contains: town, area, price
 
 

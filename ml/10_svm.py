@@ -11,7 +11,7 @@ from sklearn.datasets import load_iris
 iris = load_iris()
 
 # <img height=300 width=300 src="iris_petal_sepal.png" />
-
+        
 
 iris.feature_names
 

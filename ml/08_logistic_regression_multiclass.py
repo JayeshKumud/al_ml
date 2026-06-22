@@ -43,10 +43,10 @@ model.fit(X_train, y_train)
 # ---------------------------------------------------------
 # Evaluate model accuracy
 # ---------------------------------------------------------
-model.score(X_test, y_test)
+print("Returns accuracy on unseen test data", model.score(X_test, y_test))
 # Returns accuracy on unseen test data
 
-model.predict(digits.data[0:5])
+print("Predict labels for first 5 samples", model.predict(digits.data[0:5]))
 # Predict labels for first 5 samples
 
 

@@ -17,12 +17,12 @@ import pandas as pd
 # ---------------------------------------------------------
 # Load dataset
 # ---------------------------------------------------------
-df = pd.read_csv("./data/09_decision_tree_salaries.csv")
+df = pd.read_csv("../data/09_decision_tree_salaries.csv")
 df.head()
 # Dataset contains:
 #   company, job, degree, salary_more_then_100k (target)
 
-
+# %%
 # ---------------------------------------------------------
 # Separate input features and target column
 # ---------------------------------------------------------
@@ -32,7 +32,7 @@ target.head()
 # inputs → categorical features
 # target → binary label (1 = salary > 100k, 0 = otherwise)
 
-
+# %%
 # ---------------------------------------------------------
 # Encode categorical features using LabelEncoder
 # ---------------------------------------------------------
@@ -50,7 +50,7 @@ inputs["degree_n"] = le_degree.fit_transform(inputs["degree"])
 inputs.head()
 # Now each categorical column has a corresponding numeric version
 
-
+# %%
 # ---------------------------------------------------------
 # Prepare final feature set for training
 # ---------------------------------------------------------
@@ -58,7 +58,7 @@ inputs_n = inputs.drop(["company", "job", "degree"], axis="columns")
 inputs_n.head()
 # Only numeric columns remain: company_n, job_n, degree_n
 
-
+# %%
 # ---------------------------------------------------------
 # Train Decision Tree Classifier
 # ---------------------------------------------------------

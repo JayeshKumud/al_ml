@@ -17,7 +17,7 @@ import pandas as pd
 # ---------------------------------------------------------
 # Load dataset
 # ---------------------------------------------------------
-df = pd.read_csv("../data/09_decision_tree_salaries.csv")
+df = pd.read_csv("./data/09_decision_tree_salaries.csv")
 df.head()
 # Dataset contains:
 #   company, job, degree, salary_more_then_100k (target)
@@ -93,6 +93,21 @@ print(
     model.predict([[2, 1, 1]]),
 )
 
+
+# %%
+# %% Display tree using matplotlib
+from sklearn import tree
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(14, 10))
+tree.plot_tree(
+    model,
+    feature_names=inputs_n.columns,
+    class_names=["No", "Yes"],
+    filled=True,
+    rounded=True,
+)
+plt.show()
 
 # ---------------------------------------------------------
 # Exercise
